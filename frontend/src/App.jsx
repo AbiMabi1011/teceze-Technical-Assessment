@@ -16,7 +16,10 @@ function App() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/employees';
+  let API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/employees';
+  if (!API_URL.endsWith('/employees')) {
+    API_URL = API_URL.replace(/\/$/, '') + '/employees';
+  }
 
   // 2. Fetch all employees from the backend when the component loads
   useEffect(() => {
