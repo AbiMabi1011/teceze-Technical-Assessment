@@ -27,13 +27,16 @@ body {
 
 /* Header Section */
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   border-bottom: 2px solid var(--border-color);
   padding-bottom: 20px;
   margin-bottom: 30px;
-  flex-wrap: wrap;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between; /* Pushes title to left, button to right */
+  align-items: center;
+  flex-wrap: wrap; /* Allows wrapping on mobile screens */
   gap: 15px;
 }
 
