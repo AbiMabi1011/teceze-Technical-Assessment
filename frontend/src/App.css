@@ -1,25 +1,28 @@
 /* Global Styling & Variables */
 :root {
-  --primary-color: #007bff; /* Standard Blue */
-  --primary-hover: #0056b3;
-  --danger-color: #dc3545; /* Standard Red */
-  --danger-hover: #bd2130;
-  --bg-color: #f4f6f9;
-  --border-color: #cccccc;
+  --primary-color: #3b82f6; /* Modern Blue */
+  --primary-hover: #2563eb;
+  --secondary-color: #64748b; /* Slate Gray */
+  --secondary-hover: #475569;
+  --danger-color: #ef4444; /* Soft Red */
+  --danger-hover: #dc2626;
+  --bg-color: #f8fafc; /* Very light slate background */
+  --border-color: #e2e8f0; /* Light gray border */
+  --text-color: #1e293b; /* Dark slate text */
 }
 
 body {
   background-color: var(--bg-color);
-  color: #333333;
-  font-family: Arial, Helvetica, sans-serif; /* Basic standard fonts */
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   margin: 0;
   padding: 0;
 }
 
 .container {
-  max-width: 900px;
+  max-width: 950px;
   margin: 0 auto;
-  padding: 30px 15px;
+  padding: 40px 20px;
 }
 
 /* Header Section */
@@ -28,71 +31,76 @@ body {
   justify-content: space-between;
   align-items: center;
   border-bottom: 2px solid var(--border-color);
-  padding-bottom: 15px;
+  padding-bottom: 20px;
   margin-bottom: 30px;
-  flex-wrap: wrap; /* Allows title and button to wrap cleanly on mobile */
+  flex-wrap: wrap;
   gap: 15px;
 }
 
 .header h1 {
-  font-size: 24px;
+  font-size: 28px;
+  font-weight: 800;
   margin: 0;
-  color: #222222;
-  line-height: 1.3; /* Prevents vertical clipping of characters */
+  color: #0f172a;
+  letter-spacing: -0.02em;
 }
 
 .subtitle {
-  color: #777777;
+  color: #64748b;
   font-size: 14px;
   margin-top: 5px;
 }
 
 /* Messages & Alerts */
 .alert {
-  padding: 10px 15px;
-  border-radius: 4px;
-  margin-bottom: 20px;
+  padding: 12px 18px;
+  border-radius: 6px;
+  margin-bottom: 24px;
   font-size: 14px;
+  font-weight: 500;
 }
 
 .alert-success {
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
+  background-color: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
 }
 
 .alert-danger {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
+  background-color: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
 }
 
 /* Table Section Card */
 .table-section {
   background-color: #ffffff;
-  padding: 20px;
-  border-radius: 6px;
+  padding: 28px;
+  border-radius: 8px;
   border: 1px solid var(--border-color);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .table-section h2 {
-  font-size: 18px;
+  font-size: 20px;
   margin-top: 0;
-  margin-bottom: 15px;
-  color: #333333;
-  border-bottom: 1px solid #eeeeee;
-  padding-bottom: 8px;
-  text-align: left; /* Aligns with the table content below it */
+  margin-bottom: 20px;
+  color: #0f172a;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 10px;
+  text-align: left;
+  font-weight: 700;
 }
 
 /* Buttons */
 .btn {
-  padding: 8px 16px;
+  padding: 10px 18px;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 14px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 600;
+  transition: background-color 0.15s ease;
 }
 
 .btn-primary {
@@ -105,12 +113,13 @@ body {
 }
 
 .btn-secondary {
-  background-color: #6c757d;
-  color: #ffffff;
+  background-color: #f1f5f9;
+  color: #334155;
+  border: 1px solid var(--border-color);
 }
 
 .btn-secondary:hover {
-  background-color: #5a6268;
+  background-color: #e2e8f0;
 }
 
 .btn-add-main {
@@ -118,10 +127,12 @@ body {
   color: #ffffff;
   border: none;
   padding: 10px 20px;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 14px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 700;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 2px rgba(59, 130, 246, 0.1);
 }
 
 .btn-add-main:hover {
@@ -131,13 +142,15 @@ body {
 /* Directory Table */
 .no-data {
   text-align: center;
-  color: #777777;
-  padding: 20px;
+  color: #64748b;
+  padding: 30px;
   font-style: italic;
 }
 
 .table-container {
   overflow-x: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
 }
 
 .employee-table {
@@ -145,75 +158,90 @@ body {
   border-collapse: collapse;
 }
 
+/* Clean, borderless horizontal lines style */
 .employee-table th, .employee-table td {
-  padding: 12px;
-  border: 1px solid var(--border-color);
-  text-align: left;
+  padding: 14px 18px;
   font-size: 14px;
+  border-bottom: 1px solid var(--border-color);
 }
 
-/* Standard light-gray table header background */
 .employee-table th {
-  background-color: #f2f2f2;
-  color: #333333;
-  font-weight: bold;
+  background-color: #f8fafc;
+  color: #475569;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.employee-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.employee-table tbody tr {
+  transition: background-color 0.1s ease;
 }
 
 .employee-table tbody tr:hover {
-  background-color: #f9f9f9;
+  background-color: #f8fafc;
 }
 
-/* Action buttons in Table */
+/* Action buttons in Table (Modern Light Outline Style) */
 .btn-action {
-  padding: 5px 10px;
-  border: none;
-  border-radius: 3px;
-  font-size: 12px;
+  padding: 6px 12px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  font-size: 13px;
   cursor: pointer;
-  margin-right: 5px;
-  font-weight: bold;
+  margin-right: 6px;
+  font-weight: 600;
+  transition: all 0.15s ease;
 }
 
 .btn-edit {
-  background-color: #ffc107;
-  color: #212529;
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  border-color: #bfdbfe;
 }
 
 .btn-edit:hover {
-  background-color: #e0a800;
+  background-color: #dbeafe;
 }
 
 .btn-delete {
-  background-color: var(--danger-color);
-  color: #ffffff;
+  background-color: #fef2f2;
+  color: #b91c1c;
+  border-color: #fecaca;
 }
 
 .btn-delete:hover {
-  background-color: var(--danger-hover);
+  background-color: #fee2e2;
 }
 
-/* Modal Overlay & Card (Simple centered layout, no animations) */
+/* Modal Overlay & Card (Clean layout, subtle modern shadows) */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Simple dark backdrop */
+  background-color: rgba(15, 23, 42, 0.4); /* Soft backdrop */
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  backdrop-filter: blur(2px);
 }
 
 .modal-card {
   background-color: #ffffff;
   width: 100%;
-  max-width: 400px;
-  border-radius: 6px;
-  padding: 20px;
+  max-width: 440px;
+  border-radius: 10px;
+  padding: 28px;
   border: 1px solid var(--border-color);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
 }
 
 .modal-header {
@@ -221,66 +249,69 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  border-bottom: 1px solid #eeeeee;
-  padding-bottom: 10px;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 12px;
 }
 
 .modal-header h2 {
   font-size: 18px;
   margin: 0;
-  color: #333333;
+  color: #0f172a;
+  font-weight: 700;
 }
 
 .btn-close-modal {
   background: none;
   border: none;
   font-size: 24px;
-  color: #999999;
+  color: #94a3b8;
   cursor: pointer;
   line-height: 1;
 }
 
 .btn-close-modal:hover {
-  color: #333333;
+  color: #0f172a;
 }
 
 /* Form Styles */
 .employee-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 16px;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
 }
 
 .form-group label {
   font-size: 13px;
-  font-weight: bold;
-  color: #555555;
+  font-weight: 600;
+  color: #475569;
 }
 
 .form-group input {
-  padding: 8px 10px;
+  padding: 10px 12px;
   border: 1px solid var(--border-color);
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 14px;
   outline: none;
   background-color: #ffffff;
-  color: #333333;
+  color: var(--text-color);
 }
 
 .form-group input:focus {
   border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .form-group input:disabled {
-  background-color: #e9ecef;
-  color: #6c757d;
+  background-color: #f1f5f9;
+  color: #94a3b8;
   cursor: not-allowed;
+  border-color: #cbd5e1;
 }
 
 .form-buttons {
@@ -291,5 +322,5 @@ body {
 
 .form-buttons button {
   flex: 1;
-  padding: 10px;
+  padding: 11px;
 }
