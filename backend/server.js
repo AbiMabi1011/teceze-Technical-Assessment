@@ -3,8 +3,6 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const fs = require("fs");
-const path = require("path");
 const Employee = require("./models/Employee");
 
 const app = express();
@@ -12,15 +10,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const JSON_FILE_PATH = path.join(__dirname, "data.json");
+// In-memory fallback database to prevent read-only filesystem errors (EROFS) on hosting platforms like Vercel
+let localEmployees = [];
 let isUsingMongoDB = false;
 
-// Initialize local fallback file if it doesn't exist
-if (!fs.existsSync(JSON_FILE_PATH)) {
-  fs.writeFileSync(JSON_FILE_PATH, JSON.stringify([], null, 2));
-}
-
-// Connect to MongoDB Atlas (or fallback to local file)
+// Connect to MongoDB Atlas
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
@@ -28,7 +22,7 @@ mongoose
     isUsingMongoDB = true;
   })
   .catch((err) => {
-    console.log("MongoDB Connection Failed. Falling back to local data.json storage.");
+    console.log("MongoDB Connection Failed. Falling back to in-memory local fallback.");
     console.log("Error details:", err.message);
   });
 
@@ -41,8 +35,7 @@ app.get("/employees", async (req, res) => {
       const employees = await Employee.find();
       res.json(employees);
     } else {
-      const data = fs.readFileSync(JSON_FILE_PATH, "utf8");
-      res.json(JSON.parse(data));
+      res.json(localEmployees);
     }
   } catch (error) {
     res.status(500).json({ error: error.message || error });
@@ -57,11 +50,8 @@ app.post("/employees", async (req, res) => {
       await employee.save();
       res.status(201).json(employee);
     } else {
-      const data = fs.readFileSync(JSON_FILE_PATH, "utf8");
-      const employees = JSON.parse(data);
-
       // Unique check for Employee Number
-      const exists = employees.some(emp => emp.employeeNo === req.body.employeeNo);
+      const exists = localEmployees.some(emp => emp.employeeNo === req.body.employeeNo);
       if (exists) {
         return res.status(400).json({ code: 11000, message: "Employee Number must be unique." });
       }
@@ -74,8 +64,7 @@ app.post("/employees", async (req, res) => {
         salary: Number(req.body.salary)
       };
 
-      employees.push(newEmp);
-      fs.writeFileSync(JSON_FILE_PATH, JSON.stringify(employees, null, 2));
+      localEmployees.push(newEmp);
       res.status(201).json(newEmp);
     }
   } catch (error) {
@@ -92,23 +81,20 @@ app.put("/employees/:id", async (req, res) => {
       });
       res.json(employee);
     } else {
-      const data = fs.readFileSync(JSON_FILE_PATH, "utf8");
-      let employees = JSON.parse(data);
-      const index = employees.findIndex(emp => emp._id === req.params.id);
+      const index = localEmployees.findIndex(emp => emp._id === req.params.id);
 
       if (index === -1) {
         return res.status(404).json({ error: "Employee not found." });
       }
 
-      employees[index] = {
-        ...employees[index],
+      localEmployees[index] = {
+        ...localEmployees[index],
         employeeName: req.body.employeeName,
         designation: req.body.designation,
         salary: Number(req.body.salary)
       };
 
-      fs.writeFileSync(JSON_FILE_PATH, JSON.stringify(employees, null, 2));
-      res.json(employees[index]);
+      res.json(localEmployees[index]);
     }
   } catch (error) {
     res.status(500).json({ error: error.message || error });
@@ -122,16 +108,13 @@ app.delete("/employees/:id", async (req, res) => {
       await Employee.findByIdAndDelete(req.params.id);
       res.json({ message: "Employee Deleted" });
     } else {
-      const data = fs.readFileSync(JSON_FILE_PATH, "utf8");
-      let employees = JSON.parse(data);
-      const index = employees.findIndex(emp => emp._id === req.params.id);
+      const index = localEmployees.findIndex(emp => emp._id === req.params.id);
 
       if (index === -1) {
         return res.status(404).json({ error: "Employee not found." });
       }
 
-      employees.splice(index, 1);
-      fs.writeFileSync(JSON_FILE_PATH, JSON.stringify(employees, null, 2));
+      localEmployees.splice(index, 1);
       res.json({ message: "Employee Deleted" });
     }
   } catch (error) {
