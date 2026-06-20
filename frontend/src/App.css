@@ -82,6 +82,7 @@ body {
   color: #333333;
   border-bottom: 1px solid #eeeeee;
   padding-bottom: 8px;
+  text-align: left; /* Aligns with the table content below it */
 }
 
 /* Buttons */
