@@ -1,54 +1,51 @@
-# Employee Management System
+# Employee Management System (CRUD)
 
-A simple, clean, and fully-functional CRUD (Create, Read, Update, Delete) web application built for managing employee records.
+This is a simple full-stack Employee Management System created for the technical assessment. It allows you to perform basic CRUD operations (Create, Read, Update, Delete) on employee records.
 
-## 🛠️ Tech Stack
+## Tech Stack Used
 
-- **Frontend:** React (Vite), Axios, HTML5, Vanilla CSS3 (Custom responsive styles, Modal animations).
-- **Backend:** Node.js, Express.js, Mongoose (MongoDB).
-- **Database:** MongoDB Atlas (Cloud Database) with a local JSON file fallback for offline/development environments.
+- **Frontend:** React, Axios, CSS
+- **Backend:** Node.js, Express.js, Mongoose
+- **Database:** MongoDB Atlas (Cloud)
 
 ---
 
-## 🚀 Setup & Execution Instructions
+## Project Structure
 
-Follow these steps to run the application locally on your computer:
+- `backend/` - Contains the Express server and the Mongoose schema.
+- `frontend/` - Contains the React app and layout styling.
 
-### Prerequisite
-Ensure you have [Node.js](https://nodejs.org/) installed.
+---
 
-### 1. Configure Environment Variables
-Inside the `backend/` folder, a `.env` file should contain the database connection string and server port:
-```env
-MONGO_URI=mongodb+srv://abisabi:abi123@cluster0.yrpdfvy.mongodb.net/?appName=Cluster0
-PORT=5000
-```
+## Features
 
-### 2. Start the Backend Server
-Navigate to the `backend/` folder, install the dependencies, and start the development server:
+- **Employee List:** Displays all employees in a clean table showing their ID, Name, Designation, and Salary in LKR.
+- **Add Employee:** A modal form opens to add new employees. The Employee No is automatically generated.
+- **Edit Employee:** Allows you to update the Name, Designation, and Salary of any employee.
+- **Delete Employee:** Deletes the employee record with a confirmation prompt.
+
+---
+
+## How to Setup and Run Locally
+
+### 1. Database Configuration
+Inside the `backend/` folder, create a `.env` file and add your MongoDB connection string:
+
+
+### 2. Run the Backend
+Go to the `backend` folder, install the packages, and start the server:
 ```bash
 cd backend
 npm install
 npm run dev
 ```
-The server will run on `http://localhost:5000`.
+The server will start running on `http://localhost:5000`.
 
-### 3. Start the Frontend Dashboard
-Open a new terminal window, navigate to the `frontend/` folder, install the dependencies, and start the Vite dev server:
+### 3. Run the Frontend
+Go to the `frontend` folder, install the packages, and start the development server:
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-Open your browser and navigate to the address shown in the terminal (usually `http://localhost:5173` or `http://localhost:5174`).
-
----
-
-## ✨ Features Implemented
-
-1. **Employee Directory (Read):** Displays a clean, hover-highlighted table of all employee records showing Emp No, Name, Designation, and Salary in Sri Lankan Rupees (LKR).
-2. **Add Employee Modal (Create):** Open a modal form by clicking the top-right `+ Add Employee` button. 
-   - **Auto-generated Employee Numbers:** The application automatically generates sequential Employee Numbers (e.g. `EMP-001`, `EMP-002`) on opening the modal to prevent duplicate entry issues.
-3. **Edit Employee Modal (Update):** Click `Edit` on any employee row to edit their Name, Designation, and Salary. The unique Employee Number is locked from editing.
-4. **Delete Employee (Delete):** Click `Delete` on any row to instantly remove the employee. Includes a confirmation popup before removal.
-5. **Fail-Safe Offline Mode:** If the server cannot connect to the cloud MongoDB Atlas cluster (due to network restrictions or lack of internet), it automatically falls back to reading/writing to a local `data.json` file inside the `backend/` folder so the application remains 100% functional.
+Open your browser and navigate to the local address (usually `http://localhost:5173` or `http://localhost:5174`).
