@@ -1,21 +1,22 @@
 /* 1. Global Reset & Theme Variables */
 :root {
-  --primary-color: #3b82f6; /* Modern Blue */
-  --primary-hover: #2563eb;
+  --primary-color: #3b82f6; /* Modern Vibrant Blue */
+  --primary-hover: #1d4ed8;
   --secondary-color: #64748b; /* Slate Gray */
   --secondary-hover: #475569;
   --danger-color: #ef4444; /* Soft Red */
   --danger-hover: #dc2626;
-  --success-bg: #d1fae5;
+  --success-bg: #ecfdf5;
   --success-text: #065f46;
-  --danger-bg: #fee2e2;
+  --danger-bg: #fef2f2;
   --danger-text: #991b1b;
   --bg-card: #ffffff;
   --border-color: #e2e8f0;
   --text-main: #1e293b;
   --text-muted: #64748b;
-  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --radius: 8px;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --radius: 10px;
 }
 
 body {
@@ -30,13 +31,13 @@ body {
 .container {
   max-width: 1000px;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 50px 20px;
 }
 
 .header {
   margin-bottom: 40px;
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 20px;
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 25px;
 }
 
 .header-top {
@@ -48,76 +49,98 @@ body {
 }
 
 .header h1 {
-  font-size: 2rem;
-  color: #0f172a;
+  font-size: 2.2rem;
+  font-weight: 800;
   margin: 0;
-  font-weight: 700;
+  /* Stylish Text Gradient (simple and attractive) */
+  background: linear-gradient(135deg, #0f172a 30%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.03em;
 }
 
 .subtitle {
   color: var(--text-muted);
   font-size: 0.95rem;
-  margin: 8px 0 0 0;
+  margin: 6px 0 0 0;
+  font-weight: 500;
 }
 
 /* 3. Messages & Alerts */
 .alert {
-  padding: 12px 20px;
+  padding: 14px 20px;
   border-radius: var(--radius);
   margin-bottom: 24px;
-  font-weight: 500;
-  font-size: 0.95rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .alert-success {
   background-color: var(--success-bg);
   color: var(--success-text);
-  border: 1px solid #a7f3d0;
+  border: 1px solid #d1fae5;
 }
 
 .alert-danger {
   background-color: var(--danger-bg);
   color: var(--danger-text);
-  border: 1px solid #fecaca;
+  border: 1px solid #fee2e2;
 }
 
-/* 4. Table Section */
+/* 4. Table Section Card */
 .table-section {
   background-color: var(--bg-card);
-  padding: 28px;
+  padding: 32px;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   border: 1px solid var(--border-color);
 }
 
 .table-section h2 {
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   margin-top: 0;
   margin-bottom: 24px;
   color: #0f172a;
   border-bottom: 2px solid #f1f5f9;
   padding-bottom: 12px;
+  font-weight: 700;
 }
 
-/* 5. Buttons */
+/* 5. Buttons styling */
 .btn {
-  padding: 10px 16px;
+  padding: 10px 18px;
   border: none;
   border-radius: 6px;
   font-weight: 600;
   font-size: 0.95rem;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
   text-align: center;
 }
 
 .btn-primary {
   background-color: var(--primary-color);
   color: white;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1);
 }
 
 .btn-primary:hover {
   background-color: var(--primary-hover);
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);
 }
 
 .btn-secondary {
@@ -134,17 +157,23 @@ body {
   background-color: var(--primary-color);
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
-  font-weight: 600;
+  padding: 12px 22px;
+  border-radius: 8px;
+  font-weight: 700;
   font-size: 0.95rem;
   cursor: pointer;
-  transition: background-color 0.2s ease;
-  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.15);
 }
 
 .btn-add-main:hover {
   background-color: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 12px rgba(59, 130, 246, 0.2);
+}
+
+.btn-add-main:active {
+  transform: translateY(0);
 }
 
 /* 6. Directory Table */
@@ -152,12 +181,15 @@ body {
   text-align: center;
   color: var(--text-muted);
   font-style: italic;
-  padding: 40px 0;
+  padding: 50px 0;
   margin: 0;
+  font-size: 1rem;
 }
 
 .table-container {
   overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
 }
 
 .employee-table {
@@ -167,15 +199,24 @@ body {
 }
 
 .employee-table th, .employee-table td {
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--border-color);
+  padding: 16px 20px;
   font-size: 0.95rem;
 }
 
+/* Darker, professional header style */
 .employee-table th {
-  background-color: #f8fafc;
-  color: #475569;
+  background-color: #0f172a;
+  color: #ffffff;
   font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  border-bottom: none;
+}
+
+.employee-table td {
+  border-bottom: 1px solid var(--border-color);
+  color: #334155;
 }
 
 .employee-table tbody tr {
@@ -183,37 +224,41 @@ body {
 }
 
 .employee-table tbody tr:hover {
-  background-color: #f1f5f9;
+  background-color: #f8fafc;
 }
 
 /* Action buttons in Table */
 .btn-action {
-  padding: 6px 12px;
+  padding: 6px 14px;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   margin-right: 8px;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .btn-edit {
-  background-color: #dbeafe;
-  color: #1e40af;
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
 }
 
 .btn-edit:hover {
-  background-color: #bfdbfe;
+  background-color: #dbeafe;
+  transform: translateY(-1px);
 }
 
 .btn-delete {
-  background-color: #fee2e2;
-  color: #991b1b;
+  background-color: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
 }
 
 .btn-delete:hover {
-  background-color: #fecaca;
+  background-color: #fee2e2;
+  transform: translateY(-1px);
 }
 
 /* 7. Modal Overlay & Dialog Card */
@@ -223,31 +268,38 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(15, 23, 42, 0.6); /* Translucent dark backdrop */
+  background-color: rgba(15, 23, 42, 0.45); /* Soft dark overlay */
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(4px); /* Modern blur effect */
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .modal-card {
   background-color: var(--bg-card);
   width: 100%;
-  max-width: 500px;
+  max-width: 480px;
   border-radius: 12px;
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  box-shadow: var(--shadow-lg);
   padding: 32px;
-  animation: modalFadeIn 0.25s ease-out;
+  border: 1px solid var(--border-color);
+  animation: modalScaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes modalFadeIn {
+@keyframes modalScaleUp {
   from {
-    transform: translateY(20px);
+    transform: scale(0.95) translateY(10px);
     opacity: 0;
   }
   to {
-    transform: translateY(0);
+    transform: scale(1) translateY(0);
     opacity: 1;
   }
 }
@@ -257,7 +309,7 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 2px solid #f1f5f9;
   padding-bottom: 12px;
 }
 
@@ -265,6 +317,7 @@ body {
   font-size: 1.35rem;
   margin: 0;
   color: #0f172a;
+  font-weight: 700;
 }
 
 .btn-close-modal {
@@ -280,7 +333,7 @@ body {
 }
 
 .btn-close-modal:hover {
-  color: #000000;
+  color: #0f172a;
 }
 
 /* 8. Modal Form layout */
@@ -298,19 +351,19 @@ body {
 
 .form-group label {
   font-size: 0.875rem;
-  font-weight: 600;
-  color: #334155;
+  font-weight: 700;
+  color: #475569;
 }
 
 .form-group input {
-  padding: 10px 14px;
+  padding: 12px 14px;
   border: 1px solid var(--border-color);
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 0.95rem;
   transition: all 0.2s ease;
   outline: none;
   background-color: #f8fafc;
-  color: #1e293b; /* Explicitly dark text color to prevent white-on-white in dark mode */
+  color: #0f172a; /* Force dark text color */
 }
 
 .form-group input:focus {
@@ -323,6 +376,7 @@ body {
   background-color: #f1f5f9;
   color: #94a3b8;
   cursor: not-allowed;
+  border-color: #cbd5e1;
 }
 
 .form-buttons {
@@ -333,4 +387,5 @@ body {
 
 .form-buttons button {
   flex: 1;
+  padding: 12px;
 }
