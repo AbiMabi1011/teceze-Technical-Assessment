@@ -10,120 +10,112 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// In-memory fallback database to prevent read-only filesystem errors (EROFS) on hosting platforms like Vercel
-let localEmployees = [];
-let isUsingMongoDB = false;
-
-// Connect to MongoDB Atlas
+// MongoDB Connection (Explicitly targeting 'employee-management' database)
 mongoose
   .connect(process.env.MONGO_URI, { dbName: "employee-management" })
   .then(() => {
-    console.log("MongoDB Connected Successfully");
-    isUsingMongoDB = true;
+    console.log("✅ MongoDB Connected Successfully");
+
+    const PORT = process.env.PORT || 5000;
+
+    app.listen(PORT, () => {
+      console.log(`🚀 Server Running on Port ${PORT}`);
+    });
   })
   .catch((err) => {
-    console.log("MongoDB Connection Failed. Falling back to in-memory local fallback.");
-    console.log("Error details:", err.message);
+    console.error("❌ MongoDB Connection Failed");
+    console.error(err);
+    process.exit(1);
   });
 
-// --- API ROUTES ---
+// Health Check
+app.get("/", (req, res) => {
+  res.send("Employee API Running");
+});
 
-// 1. GET ALL EMPLOYEES
+// DB Status
+app.get("/db-status", (req, res) => {
+  res.json({
+    mongoConnected: mongoose.connection.readyState === 1
+  });
+});
+
+// GET ALL EMPLOYEES
 app.get("/employees", async (req, res) => {
   try {
-    if (isUsingMongoDB) {
-      const employees = await Employee.find();
-      res.json(employees);
-    } else {
-      res.json(localEmployees);
-    }
+    const employees = await Employee.find();
+    res.json(employees);
   } catch (error) {
-    res.status(500).json({ error: error.message || error });
+    res.status(500).json({
+      error: error.message
+    });
   }
 });
 
-// 2. CREATE EMPLOYEE
+// CREATE EMPLOYEE
 app.post("/employees", async (req, res) => {
   try {
-    if (isUsingMongoDB) {
-      const employee = new Employee(req.body);
-      await employee.save();
-      res.status(201).json(employee);
-    } else {
-      // Unique check for Employee Number
-      const exists = localEmployees.some(emp => emp.employeeNo === req.body.employeeNo);
-      if (exists) {
-        return res.status(400).json({ code: 11000, message: "Employee Number must be unique." });
-      }
+    const employee = await Employee.create({
+      employeeNo: req.body.employeeNo,
+      employeeName: req.body.employeeName,
+      designation: req.body.designation,
+      salary: req.body.salary
+    });
 
-      const newEmp = {
-        _id: Date.now().toString(),
-        employeeNo: req.body.employeeNo,
-        employeeName: req.body.employeeName,
-        designation: req.body.designation,
-        salary: Number(req.body.salary)
-      };
-
-      localEmployees.push(newEmp);
-      res.status(201).json(newEmp);
-    }
+    res.status(201).json(employee);
   } catch (error) {
-    res.status(500).json({ error: error.message || error });
+    res.status(500).json({
+      error: error.message
+    });
   }
 });
 
-// 3. UPDATE EMPLOYEE
+// UPDATE EMPLOYEE
 app.put("/employees/:id", async (req, res) => {
   try {
-    if (isUsingMongoDB) {
-      const employee = await Employee.findByIdAndUpdate(req.params.id, req.body, {
-        new: true,
-      });
-      res.json(employee);
-    } else {
-      const index = localEmployees.findIndex(emp => emp._id === req.params.id);
-
-      if (index === -1) {
-        return res.status(404).json({ error: "Employee not found." });
-      }
-
-      localEmployees[index] = {
-        ...localEmployees[index],
+    const employee = await Employee.findByIdAndUpdate(
+      req.params.id,
+      {
         employeeName: req.body.employeeName,
         designation: req.body.designation,
-        salary: Number(req.body.salary)
-      };
+        salary: req.body.salary
+      },
+      { new: true }
+    );
 
-      res.json(localEmployees[index]);
+    if (!employee) {
+      return res.status(404).json({
+        error: "Employee not found"
+      });
     }
+
+    res.json(employee);
   } catch (error) {
-    res.status(500).json({ error: error.message || error });
+    res.status(500).json({
+      error: error.message
+    });
   }
 });
 
-// 4. DELETE EMPLOYEE
+// DELETE EMPLOYEE
 app.delete("/employees/:id", async (req, res) => {
   try {
-    if (isUsingMongoDB) {
-      await Employee.findByIdAndDelete(req.params.id);
-      res.json({ message: "Employee Deleted" });
-    } else {
-      const index = localEmployees.findIndex(emp => emp._id === req.params.id);
+    const employee = await Employee.findByIdAndDelete(
+      req.params.id
+    );
 
-      if (index === -1) {
-        return res.status(404).json({ error: "Employee not found." });
-      }
-
-      localEmployees.splice(index, 1);
-      res.json({ message: "Employee Deleted" });
+    if (!employee) {
+      return res.status(404).json({
+        error: "Employee not found"
+      });
     }
-  } catch (error) {
-    res.status(500).json({ error: error.message || error });
-  }
-});
 
-// Start Server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server Running on port ${PORT}`);
+    res.json({
+      message: "Employee Deleted"
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: error.message
+    });
+  }
 });
